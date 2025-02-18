@@ -23,22 +23,23 @@ namespace ChatGPTUsageCounter
                 XDocument xdoc = XDocument.Load(XML_FILE);
                 XElement root = xdoc.Element("UsageData");
 
-                // 讀取 WeeklyConfig
-                XElement weeklyConfig = root.Element("WeeklyConfig");
-                int resetDay = int.Parse(weeklyConfig.Element("ResetDay").Value);
-                int resetHour = int.Parse(weeklyConfig.Element("ResetHour").Value);
-                int resetMinute = int.Parse(weeklyConfig.Element("ResetMinute").Value);
-                // 設定控制項
-                nudWeeklyDay.Value = resetDay;
-                nudWeeklyHour.Value = resetHour;
-                nudWeeklyMinute.Value = resetMinute;
+                // 讀取 ChatGPT o1 重置設定
+                XElement o1Config = root.Element("WeeklyConfigO1");
+                int o1Day = int.Parse(o1Config.Element("ResetDay").Value);
+                int o1Hour = int.Parse(o1Config.Element("ResetHour").Value);
+                int o1Minute = int.Parse(o1Config.Element("ResetMinute").Value);
+                nudO1Day.Value = o1Day;
+                nudO1Hour.Value = o1Hour;
+                nudO1Minute.Value = o1Minute;
 
-                // 讀取 DailyConfig
-                XElement dailyConfig = root.Element("DailyConfig");
-                int dHour = int.Parse(dailyConfig.Element("ResetHour").Value);
-                int dMinute = int.Parse(dailyConfig.Element("ResetMinute").Value);
-                nudDailyHour.Value = dHour;
-                nudDailyMinute.Value = dMinute;
+                // 讀取 ChatGPT o3-mini-high 重置設定
+                XElement miniHighConfig = root.Element("WeeklyConfigMiniHigh");
+                int mhDay = int.Parse(miniHighConfig.Element("ResetDay").Value);
+                int mhHour = int.Parse(miniHighConfig.Element("ResetHour").Value);
+                int mhMinute = int.Parse(miniHighConfig.Element("ResetMinute").Value);
+                nudMiniHighDay.Value = mhDay;
+                nudMiniHighHour.Value = mhHour;
+                nudMiniHighMinute.Value = mhMinute;
             }
             catch
             {
@@ -53,16 +54,17 @@ namespace ChatGPTUsageCounter
                 XDocument xdoc = XDocument.Load(XML_FILE);
                 XElement root = xdoc.Element("UsageData");
 
-                // 更新 WeeklyConfig
-                XElement weeklyConfig = root.Element("WeeklyConfig");
-                weeklyConfig.Element("ResetDay").Value = nudWeeklyDay.Value.ToString();
-                weeklyConfig.Element("ResetHour").Value = nudWeeklyHour.Value.ToString();
-                weeklyConfig.Element("ResetMinute").Value = nudWeeklyMinute.Value.ToString();
+                // 更新 ChatGPT o1 重置設定
+                XElement o1Config = root.Element("WeeklyConfigO1");
+                o1Config.Element("ResetDay").Value = nudO1Day.Value.ToString();
+                o1Config.Element("ResetHour").Value = nudO1Hour.Value.ToString();
+                o1Config.Element("ResetMinute").Value = nudO1Minute.Value.ToString();
 
-                // 更新 DailyConfig
-                XElement dailyConfig = root.Element("DailyConfig");
-                dailyConfig.Element("ResetHour").Value = nudDailyHour.Value.ToString();
-                dailyConfig.Element("ResetMinute").Value = nudDailyMinute.Value.ToString();
+                // 更新 ChatGPT o3-mini-high 重置設定
+                XElement miniHighConfig = root.Element("WeeklyConfigMiniHigh");
+                miniHighConfig.Element("ResetDay").Value = nudMiniHighDay.Value.ToString();
+                miniHighConfig.Element("ResetHour").Value = nudMiniHighHour.Value.ToString();
+                miniHighConfig.Element("ResetMinute").Value = nudMiniHighMinute.Value.ToString();
 
                 xdoc.Save(XML_FILE);
                 MessageBox.Show("設定已儲存！");
