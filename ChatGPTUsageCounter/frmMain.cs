@@ -13,16 +13,15 @@ namespace ChatGPTUsageCounter
 
         // ChatGPT o1 每周次數
         private int o1Count;
-        // ChatGPT o3-mini-high 每周次數
+        // ChatGPT o3-mini-high 每日次數
         private int miniHighCount;
 
-        // ChatGPT o1 重置設定（從 XML 讀取）
+        // ChatGPT o1 重置設定（從 XML 讀取）：每周（星期、時、分）
         private int o1ResetDay;    // 0～6（0 表示星期日）
         private int o1ResetHour;
         private int o1ResetMinute;
 
-        // ChatGPT o3-mini-high 重置設定（從 XML 讀取）
-        private int miniHighResetDay;    // 0～6
+        // ChatGPT o3-mini-high 重置設定（從 XML 讀取）：每日（僅時、分）
         private int miniHighResetHour;
         private int miniHighResetMinute;
 
@@ -72,11 +71,12 @@ namespace ChatGPTUsageCounter
         /// </summary>
         private void UpdateResetInfoLabels()
         {
-            // 將星期數轉換為中文表示（0=日, 1=一, ...）
+            // ChatGPT o1 為每周重置
             string[] weekDays = { "日", "一", "二", "三", "四", "五", "六" };
-
             lblInfoO1.Text = $"每周重置 (o1)：星期{weekDays[o1ResetDay]} {o1ResetHour:D2}:{o1ResetMinute:D2}";
-            lblInfoMiniHigh.Text = $"每周重置 (o3-mini-high)：星期{weekDays[miniHighResetDay]} {miniHighResetHour:D2}:{miniHighResetMinute:D2}";
+
+            // ChatGPT o3-mini-high 為每日重置
+            lblInfoMiniHigh.Text = $"每日重置 (o3-mini-high)：{miniHighResetHour:D2}:{miniHighResetMinute:D2}";
         }
 
         /// <summary>
@@ -99,9 +99,8 @@ namespace ChatGPTUsageCounter
                 o1ResetHour = int.Parse(o1Config.Element("ResetHour").Value);
                 o1ResetMinute = int.Parse(o1Config.Element("ResetMinute").Value);
 
-                // 讀取 ChatGPT o3-mini-high 重置設定
-                XElement miniHighConfig = root.Element("WeeklyConfigMiniHigh");
-                miniHighResetDay = int.Parse(miniHighConfig.Element("ResetDay").Value);
+                // 讀取 ChatGPT o3-mini-high 重置設定（每日設定）
+                XElement miniHighConfig = root.Element("DailyConfigMiniHigh");
                 miniHighResetHour = int.Parse(miniHighConfig.Element("ResetHour").Value);
                 miniHighResetMinute = int.Parse(miniHighConfig.Element("ResetMinute").Value);
 
@@ -126,7 +125,7 @@ namespace ChatGPTUsageCounter
         /// <summary>
         /// 創建預設 XML 結構  
         /// 預設 ChatGPT o1 重置設定為「星期二 15:29」  
-        /// 預設 ChatGPT o3-mini-high 重置設定為「星期五 10:00」  
+        /// 預設 ChatGPT o3-mini-high 重置設定為「每天 10:00」  
         /// Counts 皆為 50，History 為空
         /// </summary>
         private void CreateDefaultXml()
@@ -138,8 +137,7 @@ namespace ChatGPTUsageCounter
                         new XElement("ResetHour", 15),
                         new XElement("ResetMinute", 29)
                     ),
-                    new XElement("WeeklyConfigMiniHigh",
-                        new XElement("ResetDay", 5),
+                    new XElement("DailyConfigMiniHigh",
                         new XElement("ResetHour", 10),
                         new XElement("ResetMinute", 0)
                     ),
@@ -167,8 +165,7 @@ namespace ChatGPTUsageCounter
                         new XElement("ResetHour", o1ResetHour),
                         new XElement("ResetMinute", o1ResetMinute)
                     ),
-                    new XElement("WeeklyConfigMiniHigh",
-                        new XElement("ResetDay", miniHighResetDay),
+                    new XElement("DailyConfigMiniHigh",
                         new XElement("ResetHour", miniHighResetHour),
                         new XElement("ResetMinute", miniHighResetMinute)
                     ),
@@ -187,9 +184,11 @@ namespace ChatGPTUsageCounter
         /// <summary>
         /// 檢查啟動時是否需自動重置次數  
         /// 判定邏輯：  
-        /// 分別對兩項：
-        ///   - 以本週（以星期日為起點）計算各自目標重置時間 target  
-        ///     如果 now ≥ target 且 LastClosedTime &lt; target，則對應次數重置為 50
+        /// 分別對兩項：  
+        ///   - ChatGPT o1：以本週（以星期日為起點）計算目標重置時間 target  
+        ///     如果 now ≥ target 且 LastClosedTime &lt; target，則重置為 50  
+        ///   - ChatGPT o3-mini-high：以今天日期及設定的時、分計算重置時間 target  
+        ///     如果 now ≥ target 且 LastClosedTime &lt; target，則重置為 50
         /// </summary>
         private void CheckResetOnStart()
         {
@@ -197,7 +196,7 @@ namespace ChatGPTUsageCounter
             bool updated = false;
             if (lastClosedTime.HasValue)
             {
-                // ChatGPT o1 重置檢查
+                // ChatGPT o1 重置檢查（每周）
                 DateTime sunday = now.Date.AddDays(-(int)now.DayOfWeek);
                 DateTime targetO1 = sunday.AddDays(o1ResetDay)
                     .AddHours(o1ResetHour)
@@ -210,12 +209,8 @@ namespace ChatGPTUsageCounter
                     updated = true;
                 }
 
-                // ChatGPT o3-mini-high 重置檢查
-                DateTime targetMiniHigh = sunday.AddDays(miniHighResetDay)
-                    .AddHours(miniHighResetHour)
-                    .AddMinutes(miniHighResetMinute);
-                if (targetMiniHigh > now)
-                    targetMiniHigh = targetMiniHigh.AddDays(-7);
+                // ChatGPT o3-mini-high 重置檢查（每日）
+                DateTime targetMiniHigh = now.Date.AddHours(miniHighResetHour).AddMinutes(miniHighResetMinute);
                 if (now >= targetMiniHigh && lastClosedTime.Value < targetMiniHigh)
                 {
                     miniHighCount = LIMIT;

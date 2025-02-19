@@ -142,7 +142,7 @@
             this.lblInfoMiniHigh.Name = "lblInfoMiniHigh";
             this.lblInfoMiniHigh.Size = new System.Drawing.Size(144, 19);
             this.lblInfoMiniHigh.TabIndex = 7;
-            this.lblInfoMiniHigh.Text = "每周重置：星期? ??:??";
+            this.lblInfoMiniHigh.Text = "每日重置：??:??";
             // 
             // btnEditSettings
             // 

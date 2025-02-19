@@ -16,10 +16,8 @@
         private System.Windows.Forms.NumericUpDown nudO1Minute;
 
         private System.Windows.Forms.GroupBox grpMiniHigh;
-        private System.Windows.Forms.Label lblMiniHighDay;
         private System.Windows.Forms.Label lblMiniHighHour;
         private System.Windows.Forms.Label lblMiniHighMinute;
-        private System.Windows.Forms.NumericUpDown nudMiniHighDay;
         private System.Windows.Forms.NumericUpDown nudMiniHighHour;
         private System.Windows.Forms.NumericUpDown nudMiniHighMinute;
 
@@ -51,10 +49,8 @@
             this.nudO1Hour = new System.Windows.Forms.NumericUpDown();
             this.nudO1Minute = new System.Windows.Forms.NumericUpDown();
             this.grpMiniHigh = new System.Windows.Forms.GroupBox();
-            this.lblMiniHighDay = new System.Windows.Forms.Label();
             this.lblMiniHighHour = new System.Windows.Forms.Label();
             this.lblMiniHighMinute = new System.Windows.Forms.Label();
-            this.nudMiniHighDay = new System.Windows.Forms.NumericUpDown();
             this.nudMiniHighHour = new System.Windows.Forms.NumericUpDown();
             this.nudMiniHighMinute = new System.Windows.Forms.NumericUpDown();
             this.btnSave = new System.Windows.Forms.Button();
@@ -63,7 +59,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.nudO1Hour)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudO1Minute)).BeginInit();
             this.grpMiniHigh.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nudMiniHighDay)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudMiniHighHour)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudMiniHighMinute)).BeginInit();
             this.SuspendLayout();
@@ -152,65 +147,41 @@
             // 
             // grpMiniHigh
             // 
-            this.grpMiniHigh.Controls.Add(this.lblMiniHighDay);
             this.grpMiniHigh.Controls.Add(this.lblMiniHighHour);
             this.grpMiniHigh.Controls.Add(this.lblMiniHighMinute);
-            this.grpMiniHigh.Controls.Add(this.nudMiniHighDay);
             this.grpMiniHigh.Controls.Add(this.nudMiniHighHour);
             this.grpMiniHigh.Controls.Add(this.nudMiniHighMinute);
             this.grpMiniHigh.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
             this.grpMiniHigh.Location = new System.Drawing.Point(20, 130);
             this.grpMiniHigh.Name = "grpMiniHigh";
-            this.grpMiniHigh.Size = new System.Drawing.Size(489, 90);
+            this.grpMiniHigh.Size = new System.Drawing.Size(489, 80);
             this.grpMiniHigh.TabIndex = 1;
             this.grpMiniHigh.TabStop = false;
-            this.grpMiniHigh.Text = "ChatGPT o3-mini-high 每周重置設定";
-            // 
-            // lblMiniHighDay
-            // 
-            this.lblMiniHighDay.AutoSize = true;
-            this.lblMiniHighDay.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.lblMiniHighDay.Location = new System.Drawing.Point(20, 40);
-            this.lblMiniHighDay.Name = "lblMiniHighDay";
-            this.lblMiniHighDay.Size = new System.Drawing.Size(70, 19);
-            this.lblMiniHighDay.TabIndex = 0;
-            this.lblMiniHighDay.Text = "星期(0-6):";
+            this.grpMiniHigh.Text = "ChatGPT o3-mini-high 每日重置設定";
             // 
             // lblMiniHighHour
             // 
             this.lblMiniHighHour.AutoSize = true;
             this.lblMiniHighHour.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.lblMiniHighHour.Location = new System.Drawing.Point(177, 40);
+            this.lblMiniHighHour.Location = new System.Drawing.Point(50, 40);
             this.lblMiniHighHour.Name = "lblMiniHighHour";
             this.lblMiniHighHour.Size = new System.Drawing.Size(68, 19);
-            this.lblMiniHighHour.TabIndex = 1;
+            this.lblMiniHighHour.TabIndex = 0;
             this.lblMiniHighHour.Text = "時 (0-23):";
             // 
             // lblMiniHighMinute
             // 
             this.lblMiniHighMinute.AutoSize = true;
             this.lblMiniHighMinute.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.lblMiniHighMinute.Location = new System.Drawing.Point(330, 40);
+            this.lblMiniHighMinute.Location = new System.Drawing.Point(203, 40);
             this.lblMiniHighMinute.Name = "lblMiniHighMinute";
             this.lblMiniHighMinute.Size = new System.Drawing.Size(68, 19);
-            this.lblMiniHighMinute.TabIndex = 2;
+            this.lblMiniHighMinute.TabIndex = 1;
             this.lblMiniHighMinute.Text = "分 (0-59):";
-            // 
-            // nudMiniHighDay
-            // 
-            this.nudMiniHighDay.Location = new System.Drawing.Point(104, 38);
-            this.nudMiniHighDay.Maximum = new decimal(new int[] {
-            6,
-            0,
-            0,
-            0});
-            this.nudMiniHighDay.Name = "nudMiniHighDay";
-            this.nudMiniHighDay.Size = new System.Drawing.Size(50, 25);
-            this.nudMiniHighDay.TabIndex = 3;
             // 
             // nudMiniHighHour
             // 
-            this.nudMiniHighHour.Location = new System.Drawing.Point(263, 38);
+            this.nudMiniHighHour.Location = new System.Drawing.Point(124, 38);
             this.nudMiniHighHour.Maximum = new decimal(new int[] {
             23,
             0,
@@ -218,11 +189,11 @@
             0});
             this.nudMiniHighHour.Name = "nudMiniHighHour";
             this.nudMiniHighHour.Size = new System.Drawing.Size(50, 25);
-            this.nudMiniHighHour.TabIndex = 4;
+            this.nudMiniHighHour.TabIndex = 2;
             // 
             // nudMiniHighMinute
             // 
-            this.nudMiniHighMinute.Location = new System.Drawing.Point(417, 38);
+            this.nudMiniHighMinute.Location = new System.Drawing.Point(277, 38);
             this.nudMiniHighMinute.Maximum = new decimal(new int[] {
             59,
             0,
@@ -230,7 +201,7 @@
             0});
             this.nudMiniHighMinute.Name = "nudMiniHighMinute";
             this.nudMiniHighMinute.Size = new System.Drawing.Size(50, 25);
-            this.nudMiniHighMinute.TabIndex = 5;
+            this.nudMiniHighMinute.TabIndex = 3;
             // 
             // btnSave
             // 
@@ -240,7 +211,7 @@
             this.btnSave.Location = new System.Drawing.Point(379, 230);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(130, 40);
-            this.btnSave.TabIndex = 6;
+            this.btnSave.TabIndex = 4;
             this.btnSave.Text = "儲存設定";
             this.btnSave.UseVisualStyleBackColor = false;
             this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
@@ -266,7 +237,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.nudO1Minute)).EndInit();
             this.grpMiniHigh.ResumeLayout(false);
             this.grpMiniHigh.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.nudMiniHighDay)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudMiniHighHour)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.nudMiniHighMinute)).EndInit();
             this.ResumeLayout(false);
