@@ -1,4 +1,5 @@
-﻿namespace ChatGPTUsageCounter
+﻿// frmEditXML.Designer.cs
+namespace ChatGPTUsageCounter
 {
     partial class frmEditXML
     {
@@ -26,7 +27,6 @@
         /// <summary>
         /// 清理正在使用的資源
         /// </summary>
-        /// <param name="disposing"></param>
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -74,10 +74,10 @@
             this.grpO1.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
             this.grpO1.Location = new System.Drawing.Point(20, 20);
             this.grpO1.Name = "grpO1";
-            this.grpO1.Size = new System.Drawing.Size(489, 90);
+            this.grpO1.Size = new System.Drawing.Size(544, 95);
             this.grpO1.TabIndex = 0;
             this.grpO1.TabStop = false;
-            this.grpO1.Text = "ChatGPT o1 每周重置設定";
+            this.grpO1.Text = "ChatGPT Premium 每周重置設定";
             // 
             // lblO1Day
             // 
@@ -85,15 +85,15 @@
             this.lblO1Day.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.lblO1Day.Location = new System.Drawing.Point(20, 40);
             this.lblO1Day.Name = "lblO1Day";
-            this.lblO1Day.Size = new System.Drawing.Size(70, 19);
+            this.lblO1Day.Size = new System.Drawing.Size(74, 19);
             this.lblO1Day.TabIndex = 0;
-            this.lblO1Day.Text = "星期(0-6):";
+            this.lblO1Day.Text = "星期 (0-6):";
             // 
             // lblO1Hour
             // 
             this.lblO1Hour.AutoSize = true;
             this.lblO1Hour.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.lblO1Hour.Location = new System.Drawing.Point(177, 40);
+            this.lblO1Hour.Location = new System.Drawing.Point(200, 40);
             this.lblO1Hour.Name = "lblO1Hour";
             this.lblO1Hour.Size = new System.Drawing.Size(68, 19);
             this.lblO1Hour.TabIndex = 1;
@@ -103,7 +103,7 @@
             // 
             this.lblO1Minute.AutoSize = true;
             this.lblO1Minute.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.lblO1Minute.Location = new System.Drawing.Point(330, 40);
+            this.lblO1Minute.Location = new System.Drawing.Point(380, 40);
             this.lblO1Minute.Name = "lblO1Minute";
             this.lblO1Minute.Size = new System.Drawing.Size(68, 19);
             this.lblO1Minute.TabIndex = 2;
@@ -111,38 +111,38 @@
             // 
             // nudO1Day
             // 
-            this.nudO1Day.Location = new System.Drawing.Point(104, 38);
+            this.nudO1Day.Location = new System.Drawing.Point(110, 38);
             this.nudO1Day.Maximum = new decimal(new int[] {
             6,
             0,
             0,
             0});
             this.nudO1Day.Name = "nudO1Day";
-            this.nudO1Day.Size = new System.Drawing.Size(50, 25);
+            this.nudO1Day.Size = new System.Drawing.Size(60, 25);
             this.nudO1Day.TabIndex = 3;
             // 
             // nudO1Hour
             // 
-            this.nudO1Hour.Location = new System.Drawing.Point(263, 38);
+            this.nudO1Hour.Location = new System.Drawing.Point(285, 38);
             this.nudO1Hour.Maximum = new decimal(new int[] {
             23,
             0,
             0,
             0});
             this.nudO1Hour.Name = "nudO1Hour";
-            this.nudO1Hour.Size = new System.Drawing.Size(50, 25);
+            this.nudO1Hour.Size = new System.Drawing.Size(60, 25);
             this.nudO1Hour.TabIndex = 4;
             // 
             // nudO1Minute
             // 
-            this.nudO1Minute.Location = new System.Drawing.Point(417, 38);
+            this.nudO1Minute.Location = new System.Drawing.Point(465, 38);
             this.nudO1Minute.Maximum = new decimal(new int[] {
             59,
             0,
             0,
             0});
             this.nudO1Minute.Name = "nudO1Minute";
-            this.nudO1Minute.Size = new System.Drawing.Size(50, 25);
+            this.nudO1Minute.Size = new System.Drawing.Size(60, 25);
             this.nudO1Minute.TabIndex = 5;
             // 
             // grpMiniHigh
@@ -154,16 +154,16 @@
             this.grpMiniHigh.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
             this.grpMiniHigh.Location = new System.Drawing.Point(20, 130);
             this.grpMiniHigh.Name = "grpMiniHigh";
-            this.grpMiniHigh.Size = new System.Drawing.Size(489, 80);
+            this.grpMiniHigh.Size = new System.Drawing.Size(544, 85);
             this.grpMiniHigh.TabIndex = 1;
             this.grpMiniHigh.TabStop = false;
-            this.grpMiniHigh.Text = "ChatGPT o3-mini-high 每日重置設定";
+            this.grpMiniHigh.Text = "ChatGPT mini‑high 每日重置設定";
             // 
             // lblMiniHighHour
             // 
             this.lblMiniHighHour.AutoSize = true;
             this.lblMiniHighHour.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.lblMiniHighHour.Location = new System.Drawing.Point(50, 40);
+            this.lblMiniHighHour.Location = new System.Drawing.Point(20, 40);
             this.lblMiniHighHour.Name = "lblMiniHighHour";
             this.lblMiniHighHour.Size = new System.Drawing.Size(68, 19);
             this.lblMiniHighHour.TabIndex = 0;
@@ -173,7 +173,7 @@
             // 
             this.lblMiniHighMinute.AutoSize = true;
             this.lblMiniHighMinute.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.lblMiniHighMinute.Location = new System.Drawing.Point(203, 40);
+            this.lblMiniHighMinute.Location = new System.Drawing.Point(240, 40);
             this.lblMiniHighMinute.Name = "lblMiniHighMinute";
             this.lblMiniHighMinute.Size = new System.Drawing.Size(68, 19);
             this.lblMiniHighMinute.TabIndex = 1;
@@ -181,26 +181,26 @@
             // 
             // nudMiniHighHour
             // 
-            this.nudMiniHighHour.Location = new System.Drawing.Point(124, 38);
+            this.nudMiniHighHour.Location = new System.Drawing.Point(105, 38);
             this.nudMiniHighHour.Maximum = new decimal(new int[] {
             23,
             0,
             0,
             0});
             this.nudMiniHighHour.Name = "nudMiniHighHour";
-            this.nudMiniHighHour.Size = new System.Drawing.Size(50, 25);
+            this.nudMiniHighHour.Size = new System.Drawing.Size(60, 25);
             this.nudMiniHighHour.TabIndex = 2;
             // 
             // nudMiniHighMinute
             // 
-            this.nudMiniHighMinute.Location = new System.Drawing.Point(277, 38);
+            this.nudMiniHighMinute.Location = new System.Drawing.Point(325, 38);
             this.nudMiniHighMinute.Maximum = new decimal(new int[] {
             59,
             0,
             0,
             0});
             this.nudMiniHighMinute.Name = "nudMiniHighMinute";
-            this.nudMiniHighMinute.Size = new System.Drawing.Size(50, 25);
+            this.nudMiniHighMinute.Size = new System.Drawing.Size(60, 25);
             this.nudMiniHighMinute.TabIndex = 3;
             // 
             // btnSave
@@ -208,7 +208,7 @@
             this.btnSave.BackColor = System.Drawing.Color.MediumSeaGreen;
             this.btnSave.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold);
             this.btnSave.ForeColor = System.Drawing.Color.White;
-            this.btnSave.Location = new System.Drawing.Point(379, 230);
+            this.btnSave.Location = new System.Drawing.Point(390, 230);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(130, 40);
             this.btnSave.TabIndex = 4;
@@ -220,7 +220,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(531, 290);
+            this.ClientSize = new System.Drawing.Size(585, 290);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.grpMiniHigh);
             this.Controls.Add(this.grpO1);

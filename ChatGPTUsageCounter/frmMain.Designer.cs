@@ -1,30 +1,20 @@
-﻿namespace ChatGPTUsageCounter
+﻿// frmMain.Designer.cs
+namespace ChatGPTUsageCounter
 {
     partial class frmMain
     {
-        /// <summary>
-        /// 必需的設計器變數
-        /// </summary>
         private System.ComponentModel.IContainer components = null;
-
-        // 控制項宣告
         private System.Windows.Forms.Label lblO1;
         private System.Windows.Forms.Label lblO1Count;
         private System.Windows.Forms.Button btnO1Build;
         private System.Windows.Forms.Label lblInfoO1;
-
         private System.Windows.Forms.Label lblMiniHigh;
         private System.Windows.Forms.Label lblMiniHighCount;
         private System.Windows.Forms.Button btnMiniHighBuild;
         private System.Windows.Forms.Label lblInfoMiniHigh;
-
         private System.Windows.Forms.Button btnEditSettings;
         private System.Windows.Forms.Timer timerReset;
 
-        /// <summary>
-        /// 清理正在使用的資源
-        /// </summary>
-        /// <param name="disposing"></param>
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -32,11 +22,6 @@
             base.Dispose(disposing);
         }
 
-        #region Windows Form 設計器生成的程式碼
-
-        /// <summary>
-        /// 設計器支持的方法，請勿修改
-        /// </summary>
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
@@ -59,9 +44,9 @@
             this.lblO1.ForeColor = System.Drawing.Color.MidnightBlue;
             this.lblO1.Location = new System.Drawing.Point(30, 30);
             this.lblO1.Name = "lblO1";
-            this.lblO1.Size = new System.Drawing.Size(185, 25);
+            this.lblO1.Size = new System.Drawing.Size(195, 25);
             this.lblO1.TabIndex = 0;
-            this.lblO1.Text = "ChatGPT o1 次數：";
+            this.lblO1.Text = "ChatGPT Premium 次數：";
             // 
             // lblO1Count
             // 
@@ -94,7 +79,7 @@
             this.lblInfoO1.ForeColor = System.Drawing.Color.Gray;
             this.lblInfoO1.Location = new System.Drawing.Point(30, 70);
             this.lblInfoO1.Name = "lblInfoO1";
-            this.lblInfoO1.Size = new System.Drawing.Size(144, 19);
+            this.lblInfoO1.Size = new System.Drawing.Size(184, 19);
             this.lblInfoO1.TabIndex = 3;
             this.lblInfoO1.Text = "每周重置：星期? ??:??";
             // 
@@ -105,9 +90,9 @@
             this.lblMiniHigh.ForeColor = System.Drawing.Color.MidnightBlue;
             this.lblMiniHigh.Location = new System.Drawing.Point(30, 110);
             this.lblMiniHigh.Name = "lblMiniHigh";
-            this.lblMiniHigh.Size = new System.Drawing.Size(279, 25);
+            this.lblMiniHigh.Size = new System.Drawing.Size(259, 25);
             this.lblMiniHigh.TabIndex = 4;
-            this.lblMiniHigh.Text = "ChatGPT o3-mini-high 次數：";
+            this.lblMiniHigh.Text = "ChatGPT mini‑high 次數：";
             // 
             // lblMiniHighCount
             // 
@@ -140,7 +125,7 @@
             this.lblInfoMiniHigh.ForeColor = System.Drawing.Color.Gray;
             this.lblInfoMiniHigh.Location = new System.Drawing.Point(30, 155);
             this.lblInfoMiniHigh.Name = "lblInfoMiniHigh";
-            this.lblInfoMiniHigh.Size = new System.Drawing.Size(144, 19);
+            this.lblInfoMiniHigh.Size = new System.Drawing.Size(184, 19);
             this.lblInfoMiniHigh.TabIndex = 7;
             this.lblInfoMiniHigh.Text = "每日重置：??:??";
             // 
@@ -179,9 +164,6 @@
             this.Text = "ChatGPT 使用次數統計";
             this.ResumeLayout(false);
             this.PerformLayout();
-
         }
-
-        #endregion
     }
 }
