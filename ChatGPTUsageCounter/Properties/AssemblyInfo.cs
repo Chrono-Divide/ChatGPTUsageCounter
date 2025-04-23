@@ -6,11 +6,11 @@ using System.Runtime.InteropServices;
 // 制御されます。アセンブリに関連付けられている情報を変更するには、
 // これらの属性値を変更します。
 [assembly: AssemblyTitle("ChatGPTUsageCounter")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("用於統計與管理 ChatGPT Premium / mini-high 使用次數的桌面應用程式")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("HP Inc.")]
+[assembly: AssemblyCompany("Chrono-Divide")]
 [assembly: AssemblyProduct("ChatGPTUsageCounter")]
-[assembly: AssemblyCopyright("Copyright © HP Inc. 2025")]
+[assembly: AssemblyCopyright("Copyright © Chrono-Divide 2025")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

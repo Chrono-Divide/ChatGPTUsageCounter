@@ -4,6 +4,8 @@ using System.Globalization;
 using System.IO;
 using System.Windows.Forms;
 using System.Xml.Linq;
+using System.Reflection;
+
 
 namespace ChatGPTUsageCounter
 {
@@ -32,6 +34,8 @@ namespace ChatGPTUsageCounter
         public frmMain()
         {
             InitializeComponent();
+
+            this.Text = $"ChatGPT 使用次數統計工具 v{Assembly.GetExecutingAssembly().GetName().Version}";
 
             // 窗體屬性：居中、固定大小，不允許最大化
             this.StartPosition = FormStartPosition.CenterScreen;
