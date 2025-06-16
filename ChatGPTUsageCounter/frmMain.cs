@@ -1,34 +1,32 @@
-﻿// frmMain.cs
+﻿// frmMain.cs  -- C# ≤7.3 兼容版
 using System;
 using System.Globalization;
 using System.IO;
+using System.Reflection;
 using System.Windows.Forms;
 using System.Xml.Linq;
-using System.Reflection;
-
 
 namespace ChatGPTUsageCounter
 {
     public partial class frmMain : Form
     {
-        private const int LIMIT = 50;
+        private const int LIMIT_PREMIUM = 100; // ChatGPT Premium 每周可用次數
+        private const int LIMIT_MINI_HIGH = 50;  // ChatGPT mini-high 每日可用次數
         private const string XML_FILE = "data.xml";
 
-        // ChatGPT Premium 每周次數
-        private int o1Count;
-        // ChatGPT mini‑high 每日次數
-        private int miniHighCount;
+        // 目前剩餘次數
+        private int o1Count;         // Premium
+        private int miniHighCount;   // mini-high
 
-        // ChatGPT Premium 重置設定（從 XML 讀取）：每周（星期、時、分）
-        private int o1ResetDay;    // 0～6（0 表示星期日）
+        // Premium 每周重置設定
+        private int o1ResetDay;      // 0(日)~6(六)
         private int o1ResetHour;
         private int o1ResetMinute;
 
-        // ChatGPT mini‑high 重置設定（從 XML 讀取）：每日（僅時、分）
+        // mini-high 每日重置設定
         private int miniHighResetHour;
         private int miniHighResetMinute;
 
-        // 記錄上一次程序關閉的時間
         private DateTime? lastClosedTime;
 
         public frmMain()
@@ -36,27 +34,18 @@ namespace ChatGPTUsageCounter
             InitializeComponent();
 
             this.Text = $"ChatGPT 使用次數統計工具 v{Assembly.GetExecutingAssembly().GetName().Version}";
-
-            // 窗體屬性：居中、固定大小，不允許最大化
             this.StartPosition = FormStartPosition.CenterScreen;
             this.FormBorderStyle = FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
 
-            // 讀取 XML 資料（若不存在則建立預設 XML）
             LoadXmlData();
-
-            // 更新介面提示：顯示各自設定的重置時間
             UpdateResetInfoLabels();
-
-            // 啟動時依據 LastClosedTime 判斷是否需要重置（分別檢查兩項）
             CheckResetOnStart();
 
-            // 更新顯示剩餘次數
             lblO1Count.Text = o1Count.ToString();
             lblMiniHighCount.Text = miniHighCount.ToString();
 
-            // 啟動 timer，每分鐘檢查一次重置條件
-            timerReset.Interval = 60000;
+            timerReset.Interval = 60_000;          // 1 分鐘
             timerReset.Tick += TimerReset_Tick;
             timerReset.Start();
         }
@@ -68,53 +57,43 @@ namespace ChatGPTUsageCounter
             base.OnFormClosing(e);
         }
 
-        private void UpdateResetInfoLabels()
-        {
-            // ChatGPT Premium 為每周重置
-            string[] weekDays = { "日", "一", "二", "三", "四", "五", "六" };
-            lblInfoO1.Text = $"每周重置 (Premium)：星期{weekDays[o1ResetDay]} {o1ResetHour:D2}:{o1ResetMinute:D2}";
-
-            // ChatGPT mini‑high 為每日重置
-            lblInfoMiniHigh.Text = $"每日重置 (mini‑high)：{miniHighResetHour:D2}:{miniHighResetMinute:D2}";
-        }
-
+        #region 讀取/儲存 XML 與預設值
         private void LoadXmlData()
         {
             if (!File.Exists(XML_FILE))
-            {
                 CreateDefaultXml();
-            }
+
             try
             {
                 XDocument xdoc = XDocument.Load(XML_FILE);
                 XElement root = xdoc.Element("UsageData");
 
-                // 讀取 ChatGPT Premium 重置設定（每周）
-                XElement o1Config = root.Element("WeeklyConfigO1");
-                o1ResetDay = int.Parse(o1Config.Element("ResetDay").Value);
-                o1ResetHour = int.Parse(o1Config.Element("ResetHour").Value);
-                o1ResetMinute = int.Parse(o1Config.Element("ResetMinute").Value);
+                XElement o1Cfg = root.Element("WeeklyConfigO1");
+                o1ResetDay = int.Parse(o1Cfg.Element("ResetDay").Value);
+                o1ResetHour = int.Parse(o1Cfg.Element("ResetHour").Value);
+                o1ResetMinute = int.Parse(o1Cfg.Element("ResetMinute").Value);
 
-                // 讀取 ChatGPT mini‑high 重置設定（每日設定）
-                XElement miniHighConfig = root.Element("DailyConfigMiniHigh");
-                miniHighResetHour = int.Parse(miniHighConfig.Element("ResetHour").Value);
-                miniHighResetMinute = int.Parse(miniHighConfig.Element("ResetMinute").Value);
+                XElement mhCfg = root.Element("DailyConfigMiniHigh");
+                miniHighResetHour = int.Parse(mhCfg.Element("ResetHour").Value);
+                miniHighResetMinute = int.Parse(mhCfg.Element("ResetMinute").Value);
 
-                // 讀取 History（LastClosedTime）
                 XElement history = root.Element("History");
-                string lastClosedStr = history.Element("LastClosedTime").Value;
-                lastClosedTime = string.IsNullOrWhiteSpace(lastClosedStr)
-                    ? (DateTime?)null
-                    : DateTime.Parse(lastClosedStr);
+                string lastStr = history.Element("LastClosedTime").Value;
 
-                // 讀取 Counts（Premium 與 mini‑high）
+                // ↓↓↓ 改寫：避免三元運算直接回傳 null (C# 7.3 以前不允許推斷)
+                if (string.IsNullOrWhiteSpace(lastStr))
+                    lastClosedTime = null;
+                else
+                    lastClosedTime = DateTime.Parse(lastStr);
+                // ↑↑↑
+
                 XElement counts = root.Element("Counts");
                 o1Count = int.Parse(counts.Element("WeeklyO1").Attribute("value").Value);
                 miniHighCount = int.Parse(counts.Element("MiniHigh").Attribute("value").Value);
             }
             catch
             {
-                MessageBox.Show("讀取 XML 資料失敗，將重新建立預設值。");
+                MessageBox.Show("讀取 XML 資料失敗，已重新初始化。");
                 CreateDefaultXml();
                 LoadXmlData();
             }
@@ -137,8 +116,8 @@ namespace ChatGPTUsageCounter
                         new XElement("LastClosedTime", "")
                     ),
                     new XElement("Counts",
-                        new XElement("WeeklyO1", new XAttribute("value", LIMIT)),
-                        new XElement("MiniHigh", new XAttribute("value", LIMIT))
+                        new XElement("WeeklyO1", new XAttribute("value", LIMIT_PREMIUM)),
+                        new XElement("MiniHigh", new XAttribute("value", LIMIT_MINI_HIGH))
                     )
                 )
             );
@@ -159,9 +138,10 @@ namespace ChatGPTUsageCounter
                         new XElement("ResetMinute", miniHighResetMinute)
                     ),
                     new XElement("History",
-                        new XElement("LastClosedTime", lastClosedTime.HasValue
-                            ? lastClosedTime.Value.ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture)
-                            : "")
+                        new XElement("LastClosedTime",
+                            lastClosedTime.HasValue
+                                ? lastClosedTime.Value.ToString("yyyy-MM-dd HH:mm:ss", CultureInfo.InvariantCulture)
+                                : "")
                     ),
                     new XElement("Counts",
                         new XElement("WeeklyO1", new XAttribute("value", o1Count)),
@@ -171,40 +151,48 @@ namespace ChatGPTUsageCounter
             );
             xdoc.Save(XML_FILE);
         }
+        #endregion
+
+        #region 重置檢查
+        private void UpdateResetInfoLabels()
+        {
+            string[] weekDays = { "日", "一", "二", "三", "四", "五", "六" };
+            lblInfoO1.Text = $"每周重置 (Premium)：星期{weekDays[o1ResetDay]} {o1ResetHour:D2}:{o1ResetMinute:D2}";
+            lblInfoMiniHigh.Text = $"每日重置 (mini-high)：{miniHighResetHour:D2}:{miniHighResetMinute:D2}";
+        }
 
         private void CheckResetOnStart()
         {
             DateTime now = DateTime.Now;
             bool updated = false;
+
             if (lastClosedTime.HasValue)
             {
-                // Premium 重置檢查（每周）
+                // Premium：每周
                 DateTime sunday = now.Date.AddDays(-(int)now.DayOfWeek);
                 DateTime targetO1 = sunday.AddDays(o1ResetDay)
-                    .AddHours(o1ResetHour)
-                    .AddMinutes(o1ResetMinute);
-                if (targetO1 > now)
-                    targetO1 = targetO1.AddDays(-7);
+                                           .AddHours(o1ResetHour)
+                                           .AddMinutes(o1ResetMinute);
+                if (targetO1 > now) targetO1 = targetO1.AddDays(-7);
+
                 if (now >= targetO1 && lastClosedTime.Value < targetO1)
                 {
-                    o1Count = LIMIT;
+                    o1Count = LIMIT_PREMIUM;
                     updated = true;
                 }
 
-                // mini‑high 重置檢查（每日）
-                DateTime targetMiniHigh = now.Date
-                    .AddHours(miniHighResetHour)
-                    .AddMinutes(miniHighResetMinute);
-                if (now >= targetMiniHigh && lastClosedTime.Value < targetMiniHigh)
+                // mini-high：每日
+                DateTime targetMh = now.Date.AddHours(miniHighResetHour)
+                                            .AddMinutes(miniHighResetMinute);
+                if (now >= targetMh && lastClosedTime.Value < targetMh)
                 {
-                    miniHighCount = LIMIT;
+                    miniHighCount = LIMIT_MINI_HIGH;
                     updated = true;
                 }
             }
+
             if (updated)
-            {
                 SaveXmlData();
-            }
         }
 
         private void TimerReset_Tick(object sender, EventArgs e)
@@ -213,7 +201,9 @@ namespace ChatGPTUsageCounter
             lblO1Count.Text = o1Count.ToString();
             lblMiniHighCount.Text = miniHighCount.ToString();
         }
+        #endregion
 
+        #region 按鈕事件
         private void btnO1Build_Click(object sender, EventArgs e)
         {
             if (o1Count > 0)
@@ -238,20 +228,25 @@ namespace ChatGPTUsageCounter
             }
             else
             {
-                MessageBox.Show("ChatGPT mini‑high 次數已用完！");
+                MessageBox.Show("ChatGPT mini-high 次數已用完！");
             }
         }
 
         private void btnEditSettings_Click(object sender, EventArgs e)
         {
-            frmEditXML frmEdit = new frmEditXML();
-            if (frmEdit.ShowDialog() == DialogResult.OK)
+            // ↓↓↓ 改寫：使用傳統 using (…) 區塊
+            using (var frmEdit = new frmEditXML())
             {
-                LoadXmlData();
-                UpdateResetInfoLabels();
-                lblO1Count.Text = o1Count.ToString();
-                lblMiniHighCount.Text = miniHighCount.ToString();
+                if (frmEdit.ShowDialog() == DialogResult.OK)
+                {
+                    LoadXmlData();
+                    UpdateResetInfoLabels();
+                    lblO1Count.Text = o1Count.ToString();
+                    lblMiniHighCount.Text = miniHighCount.ToString();
+                }
             }
+            // ↑↑↑
         }
+        #endregion
     }
 }

@@ -92,7 +92,7 @@ namespace ChatGPTUsageCounter
             this.lblMiniHigh.Name = "lblMiniHigh";
             this.lblMiniHigh.Size = new System.Drawing.Size(259, 25);
             this.lblMiniHigh.TabIndex = 4;
-            this.lblMiniHigh.Text = "ChatGPT mini‑high 次數：";
+            this.lblMiniHigh.Text = "ChatGPT mini-high 次數：";
             // 
             // lblMiniHighCount
             // 
